@@ -1,4 +1,4 @@
-## play TORCS in Gym-like environment
+## Play TORCS in Gym-like Environment
 
 # Installation Dependencies:
 
@@ -6,5 +6,3 @@
 * Keras 1.1.0
 * Tensorflow r0.10
 * [gym_torcs](https://github.com/ugo-nama-kun/gym_torcs)
-
-

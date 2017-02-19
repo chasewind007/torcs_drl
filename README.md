@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## Using Keras and Deep Deterministic Policy Gradient to play TORCS
 
 300 lines of python code to demonstrate DDPG with Keras
@@ -26,3 +27,7 @@ python ddpg.py
 ```
 
 (Change the flag **train_indicator**=1 in ddpg.py if you want to train the network)
+=======
+# torcs_drl
+train Torcs with deep reinforcement learning
+>>>>>>> 2116096afc63937d802699421f49bf1c6e9378c7

@@ -15,6 +15,9 @@ from ActorNetwork import ActorNetwork
 from CriticNetwork import CriticNetwork
 from OU import OU
 import timeit
+import time
+from time import gmtime, strftime
+import os
 
 OU = OU()       #Ornstein-Uhlenbeck Process
 
@@ -34,13 +37,19 @@ def playGame(train_indicator=0):    #1 means Train, 0 means simply Run
     vision = False
 
     EXPLORE = 100000.
-    episode_count = 2000
+    episode_count = 20000
     max_steps = 100000
     reward = 0
     done = False
     step = 0
     epsilon = 1
     indicator = 0
+
+    # date time used to name the saved weights
+    if (train_indicator):
+        date = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
+        file_path = "./weights/" + date
+        os.makedirs(file_path)
 
     #Tensorflow GPU optimization
     config = tf.ConfigProto()
@@ -59,10 +68,10 @@ def playGame(train_indicator=0):    #1 means Train, 0 means simply Run
     #Now load the weight
     print("Now we load the weight")
     try:
-        actor.model.load_weights("actormodel.h5")
-        critic.model.load_weights("criticmodel.h5")
-        actor.target_model.load_weights("actormodel.h5")
-        critic.target_model.load_weights("criticmodel.h5")
+        actor.model.load_weights("weights/actormodel.h5")
+        critic.model.load_weights("weights/criticmodel.h5")
+        actor.target_model.load_weights("weights/actormodel.h5")
+        critic.target_model.load_weights("weights/criticmodel.h5")
         print("Weight load successfully")
     except:
         print("Cannot find the weight")
@@ -140,16 +149,18 @@ def playGame(train_indicator=0):    #1 means Train, 0 means simply Run
             if done:
                 break
 
-        if np.mod(i, 3) == 0:
+        if np.mod(i, 50) == 0:
             if (train_indicator):
                 print("Now we save model")
-                actor.model.save_weights("actormodel.h5", overwrite=True)
-                with open("actormodel.json", "w") as outfile:
-                    json.dump(actor.model.to_json(), outfile)
+                actor.model.save_weights(file_path + "/actormodel_" + str(i) + ".h5")
+                actor.model.save_weights("weights/actormodel.h5", overwrite=True)
+                # with open("actormodel.json", "w") as outfile:
+                    # json.dump(actor.model.to_json(), outfile)
 
-                critic.model.save_weights("criticmodel.h5", overwrite=True)
-                with open("criticmodel.json", "w") as outfile:
-                    json.dump(critic.model.to_json(), outfile)
+                critic.model.save_weights(file_path + "/criticmodel_" + str(i) + ".h5")
+                critic.model.save_weights("weights/criticmodel.h5", overwrite=True)
+                # with open("criticmodel.json", "w") as outfile:
+                    # json.dump(critic.model.to_json(), outfile)
 
         print("TOTAL REWARD @ " + str(i) +"-th Episode  : Reward " + str(total_reward))
         print("Total Step: " + str(step))

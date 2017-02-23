@@ -1,4 +1,4 @@
-avconv -f x11grab -s 630*500 -r 100 -i :0.0+60,30 video/ddpg_spring_1150.avi
+avconv -f x11grab -s 630*500 -r 100 -i :0.0+60,30 video/ddpg_evo-4-r_3350.avi
 
 # avconv -f x11grab is the default command to capture video from the X server.
 # -r 25 is the frame rate you want, you may change it if you like.
